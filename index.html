@@ -8,19 +8,21 @@
   <style>
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f7fb;
-      color: #1f2937;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(135deg, #0f172a, #172554, #1e1b4b);
+      color: #f8fafc;
+      min-height: 100vh;
+      padding: 30px;
     }
 
     .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 40px 25px;
+      max-width: 950px;
+      margin: auto;
     }
 
     .header {
@@ -29,101 +31,212 @@
     }
 
     .header h1 {
-      margin-bottom: 10px;
-      font-size: 34px;
+      font-size: 36px;
+      margin-bottom: 8px;
     }
 
     .header p {
-      color: #6b7280;
+      color: #94a3b8;
       font-size: 16px;
     }
 
+    .badge {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 7px 14px;
+      border-radius: 20px;
+      background: rgba(99, 102, 241, 0.18);
+      border: 1px solid rgba(129, 140, 248, 0.4);
+      color: #a5b4fc;
+      font-size: 13px;
+    }
+
     .card {
-      background: white;
-      border-radius: 16px;
-      padding: 30px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
-      margin-bottom: 25px;
+      background: rgba(15, 23, 42, 0.88);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      border-radius: 18px;
+      padding: 25px;
+      margin-bottom: 22px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+    }
+
+    .settings {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 15px;
     }
 
     label {
       display: block;
+      margin-bottom: 8px;
+      color: #cbd5e1;
+      font-size: 14px;
       font-weight: bold;
-      margin-bottom: 10px;
     }
 
-    input {
+    input,
+    select {
       width: 100%;
-      padding: 14px;
-      border: 1px solid #d1d5db;
+      padding: 13px;
       border-radius: 10px;
-      font-size: 16px;
-      margin-bottom: 15px;
+      border: 1px solid #334155;
+      background: #0f172a;
+      color: white;
+      outline: none;
+      font-size: 15px;
     }
 
-    button {
+    input:focus,
+    select:focus {
+      border-color: #818cf8;
+    }
+
+    .generate-btn {
       width: 100%;
-      padding: 14px;
+      margin-top: 20px;
+      padding: 15px;
       border: none;
-      border-radius: 10px;
-      background: #2563eb;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
       color: white;
       font-size: 16px;
       font-weight: bold;
       cursor: pointer;
+      transition: 0.2s;
     }
 
-    button:hover {
-      background: #1d4ed8;
+    .generate-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.35);
     }
 
-    button:disabled {
-      background: #9ca3af;
-      cursor: not-allowed;
-    }
-
-    #status {
-      margin-top: 15px;
+    .status {
       text-align: center;
-      color: #6b7280;
-    }
-
-    #quiz {
+      padding: 15px;
+      color: #94a3b8;
       display: none;
     }
 
-    .question {
-      margin-bottom: 25px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid #e5e7eb;
+    .question-card {
+      background: #111827;
+      border: 1px solid #334155;
+      border-radius: 15px;
+      padding: 22px;
+      margin-bottom: 18px;
     }
 
-    .question h3 {
+    .question-number {
+      color: #a5b4fc;
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .question {
+      font-size: 18px;
+      font-weight: bold;
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+
+    .option {
+      display: block;
+      padding: 13px;
+      margin: 9px 0;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .option:hover {
+      background: #1e293b;
+      border-color: #6366f1;
+    }
+
+    .option input {
+      width: auto;
+      margin-right: 10px;
+    }
+
+    .submit-btn,
+    .retry-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 11px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .submit-btn {
+      background: #22c55e;
+      color: white;
+    }
+
+    .retry-btn {
+      margin-top: 12px;
+      background: #334155;
+      color: white;
+    }
+
+    .result {
+      text-align: center;
+      display: none;
+    }
+
+    .score {
+      font-size: 42px;
+      font-weight: bold;
+      color: #a5b4fc;
+      margin: 12px 0;
+    }
+
+    .answer-key {
+      display: none;
+      border: 1px solid rgba(34, 197, 94, 0.35);
+      background: rgba(20, 83, 45, 0.18);
+    }
+
+    .answer-key h2 {
       margin-bottom: 15px;
     }
 
-    .choice {
-      padding: 10px;
-      margin: 7px 0;
-      background: #f9fafb;
-      border-radius: 8px;
+    .answer-item {
+      padding: 12px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+      line-height: 1.5;
     }
 
-    .answer {
-      margin-top: 12px;
+    .answer-item:last-child {
+      border-bottom: none;
+    }
+
+    .correct {
+      color: #4ade80;
       font-weight: bold;
-    }
-
-    .explanation {
-      margin-top: 8px;
-      color: #6b7280;
     }
 
     .footer {
       text-align: center;
-      color: #9ca3af;
+      color: #64748b;
       font-size: 13px;
       margin-top: 25px;
+    }
+
+    @media (max-width: 700px) {
+      body {
+        padding: 15px;
+      }
+
+      .settings {
+        grid-template-columns: 1fr;
+      }
+
+      .header h1 {
+        font-size: 28px;
+      }
     }
   </style>
 </head>
@@ -134,120 +247,232 @@
 
     <div class="header">
       <h1>🧠 AI Study Quiz Generator</h1>
-      <p>Generate study quizzes using Tether's QVAC SDK on-device.</p>
+      <p>Create personalized study quizzes using on-device AI.</p>
+      <div class="badge">⚡ Powered by Tether's QVAC SDK</div>
     </div>
 
+    <!-- QUIZ SETTINGS -->
     <div class="card">
+      <div class="settings">
 
-      <label for="topic">Enter a study topic</label>
+        <div>
+          <label for="topic">📚 Study Topic</label>
+          <input
+            id="topic"
+            type="text"
+            placeholder="Example: JavaScript"
+            value="JavaScript"
+          >
+        </div>
 
-      <input
-        id="topic"
-        type="text"
-        placeholder="Example: JavaScript"
-      >
+        <div>
+          <label for="questionCount">🔢 Questions</label>
+          <select id="questionCount">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+          </select>
+        </div>
 
-      <button id="generateBtn">
-        Generate Quiz
+        <div>
+          <label for="difficulty">🎯 Difficulty</label>
+          <select id="difficulty">
+            <option>Easy</option>
+            <option selected>Medium</option>
+            <option>Hard</option>
+          </select>
+        </div>
+
+      </div>
+
+      <button class="generate-btn" onclick="generateQuiz()">
+        ✨ Generate Quiz
       </button>
 
-      <div id="status"></div>
-
+      <div id="status" class="status">
+        ⚡ QVAC is loading the AI model and generating your quiz...
+      </div>
     </div>
 
-    <div id="quiz" class="card">
+    <!-- QUIZ AREA -->
+    <div id="quizArea"></div>
 
-      <h2>Your Study Quiz</h2>
+    <!-- RESULT -->
+    <div id="result" class="card result">
+      <h2>🎉 Quiz Complete!</h2>
+      <div id="score" class="score">0 / 0</div>
+      <p id="scoreMessage"></p>
 
-      <div id="quizContent"></div>
+      <button class="retry-btn" onclick="resetQuiz()">
+        🔄 Generate Another Quiz
+      </button>
+    </div>
 
+    <!-- ANSWER KEY -->
+    <div id="answerKey" class="card answer-key">
+      <h2>📋 Answer Key</h2>
+      <div id="answers"></div>
     </div>
 
     <div class="footer">
-      Powered by QVAC SDK • AI runs locally/on-device
+      AI-powered study tool • Tether QVAC SDK • On-device AI
     </div>
 
   </div>
 
   <script>
+    let currentQuiz = [];
 
-    const generateBtn = document.getElementById("generateBtn");
-    const topicInput = document.getElementById("topic");
-    const status = document.getElementById("status");
-    const quiz = document.getElementById("quiz");
-    const quizContent = document.getElementById("quizContent");
+    /*
+      This function is the UI layer.
 
-    generateBtn.addEventListener("click", async () => {
+      IMPORTANT:
+      Your existing QVAC generation logic should remain in app.js.
+      We will connect this button to that logic in the next step.
+    */
 
-      const topic = topicInput.value.trim();
+    async function generateQuiz() {
+      const topic = document.getElementById("topic").value.trim();
+      const count = document.getElementById("questionCount").value;
+      const difficulty = document.getElementById("difficulty").value;
 
       if (!topic) {
-        status.textContent = "Please enter a study topic.";
+        alert("Please enter a study topic.");
         return;
       }
 
-      generateBtn.disabled = true;
-      status.textContent = "Generating quiz with QVAC...";
-      quiz.style.display = "none";
+      document.getElementById("status").style.display = "block";
+      document.getElementById("quizArea").innerHTML = "";
+      document.getElementById("result").style.display = "none";
+      document.getElementById("answerKey").style.display = "none";
 
-      try {
+      /*
+        PLACEHOLDER
 
-        const { spawn } = require("child_process");
+        Your existing QVAC function will be connected here.
+      */
 
-        const process = spawn("node", ["app.js", topic], {
-          cwd: __dirname
-        });
+      console.log("Generate quiz:", {
+        topic,
+        count,
+        difficulty
+      });
 
-        let output = "";
-
-        process.stdout.on("data", (data) => {
-          output += data.toString();
-        });
-
-        process.stderr.on("data", (data) => {
-          console.error(data.toString());
-        });
-
-        process.on("close", (code) => {
-
-          generateBtn.disabled = false;
-
-          if (code !== 0) {
-            status.textContent = "Something went wrong while generating the quiz.";
-            return;
-          }
-
-          status.textContent = "Quiz generated successfully!";
-
-          quizContent.innerHTML = `
-            <pre style="
-              white-space: pre-wrap;
-              font-family: Arial, sans-serif;
-              line-height: 1.6;
-            ">${escapeHtml(output)}</pre>
-          `;
-
-          quiz.style.display = "block";
-        });
-
-      } catch (error) {
-
-        generateBtn.disabled = false;
-        status.textContent = "Error: " + error.message;
-
-      }
-
-    });
-
-    function escapeHtml(text) {
-      return text
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+      document.getElementById("status").style.display = "none";
     }
 
+    function displayQuiz(quiz) {
+      currentQuiz = quiz;
+
+      const quizArea = document.getElementById("quizArea");
+      quizArea.innerHTML = "";
+
+      quiz.forEach((item, index) => {
+
+        const card = document.createElement("div");
+        card.className = "question-card";
+
+        let optionsHTML = "";
+
+        item.options.forEach((option, optionIndex) => {
+          const letter = String.fromCharCode(65 + optionIndex);
+
+          optionsHTML += `
+            <label class="option">
+              <input
+                type="radio"
+                name="question-${index}"
+                value="${letter}"
+              >
+              <strong>${letter}.</strong> ${option}
+            </label>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="question-number">
+            QUESTION ${index + 1} OF ${quiz.length}
+          </div>
+
+          <div class="question">
+            ${item.question}
+          </div>
+
+          ${optionsHTML}
+        `;
+
+        quizArea.appendChild(card);
+      });
+
+      const submit = document.createElement("button");
+      submit.className = "submit-btn";
+      submit.textContent = "✅ Submit Quiz";
+      submit.onclick = submitQuiz;
+
+      quizArea.appendChild(submit);
+    }
+
+    function submitQuiz() {
+      let score = 0;
+      const answers = document.getElementById("answers");
+
+      answers.innerHTML = "";
+
+      currentQuiz.forEach((item, index) => {
+
+        const selected = document.querySelector(
+          `input[name="question-${index}"]:checked`
+        );
+
+        const userAnswer = selected ? selected.value : "No answer";
+        const correctAnswer = item.answer;
+
+        if (userAnswer === correctAnswer) {
+          score++;
+        }
+
+        const answerDiv = document.createElement("div");
+        answerDiv.className = "answer-item";
+
+        answerDiv.innerHTML = `
+          <strong>Question ${index + 1}</strong><br>
+          Correct Answer:
+          <span class="correct">
+            ${correctAnswer}
+          </span>
+        `;
+
+        answers.appendChild(answerDiv);
+      });
+
+      document.getElementById("score").textContent =
+        `${score} / ${currentQuiz.length}`;
+
+      const percentage =
+        Math.round((score / currentQuiz.length) * 100);
+
+      document.getElementById("scoreMessage").textContent =
+        `You scored ${percentage}%.`;
+
+      document.getElementById("result").style.display = "block";
+      document.getElementById("answerKey").style.display = "block";
+
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: "smooth"
+      });
+    }
+
+    function resetQuiz() {
+      document.getElementById("quizArea").innerHTML = "";
+      document.getElementById("result").style.display = "none";
+      document.getElementById("answerKey").style.display = "none";
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
   </script>
 
 </body>
