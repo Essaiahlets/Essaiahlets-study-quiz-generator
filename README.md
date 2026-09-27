@@ -160,32 +160,6 @@ The application validates the generated QVAC output to ensure that:
 
 For reliability with the local model, quiz generation is performed in small batches and retried when the generated output is incomplete or invalid.
 
-## 📸 Example
-
-Example configuration:
-
-**Study Topic:** Philippines History
-**Questions:** 15
-**Difficulty:** Medium
-
-The application generates the questions locally and displays them directly inside the Electron desktop application.
-
-## 📦 Project Structure
-
-```text
-Essaiahlets-study-quiz-generator/
-│
-├── index.html        # Quiz user interface
-├── index.cjs         # Electron main process and IPC
-├── app.js            # QVAC model loading and AI inference
-├── qvac-bridge.mjs   # QVAC integration bridge
-├── qvac-test.js      # QVAC testing
-├── package.json      # Project configuration and dependencies
-├── package-lock.json
-├── LICENSE           # MIT License
-└── README.md
-```
-
 ## 🔐 License
 
 This project is licensed under the MIT License.
