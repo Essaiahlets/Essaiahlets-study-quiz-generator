@@ -23,7 +23,7 @@ function createWindow() {
     path.join(__dirname, "index.html")
   );
   // Open DevTools automatically
-  mainWindow.webContents.openDevTools();
+
 }
 // ==========================================
 // PARSE QVAC JSON
