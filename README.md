@@ -1,6 +1,6 @@
 🧠 AI-Powered Study Quiz Generator
 
-An AI-powered study quiz generator built with Tether’s QVAC SDK. The app creates personalized quizzes using AI running directly on the device, without relying on a cloud AI service.
+An AI-powered desktop study quiz generator built with Tether’s QVAC SDK. The app generates personalized quizzes using AI running directly on the device, without relying on a cloud AI service.
 
 ✨ Features
 
@@ -10,8 +10,8 @@ An AI-powered study quiz generator built with Tether’s QVAC SDK. The app creat
 * 🎯 Choose quiz difficulty
 * ⚡ Runs AI inference on-device
 * 🔒 No cloud AI API required for inference
-* 💻 Desktop app built with Electron
-* 🔥 Powered by Tether’s QVAC SDK
+* 💻 Desktop application built with Electron
+* 🚀 Powered by Tether’s QVAC SDK
 
 🛠️ Technologies
 
@@ -20,13 +20,23 @@ An AI-powered study quiz generator built with Tether’s QVAC SDK. The app creat
 * Electron
 * Tether QVAC SDK
 
-📦 Requirements
+📋 Requirements
 
 Before running the application, make sure you have:
 
 * Node.js installed
 * npm installed
-* A computer capable of running the Electron application
+* A computer capable of running Electron and the QVAC model locally
+
+📦 QVAC SDK
+
+This project uses the QVAC JavaScript SDK.
+
+npm install @qvac/sdk
+
+QVAC SDK version: 0.20.0
+
+The QVAC SDK is used to load and run an AI model locally for quiz generation.
 
 🚀 Installation
 
@@ -34,71 +44,64 @@ Clone the repository:
 
 git clone https://github.com/Essaiahlets/Essaiahlets-study-quiz-generator.git
 
-Open the project folder:
+Enter the project directory:
 
 cd Essaiahlets-study-quiz-generator
 
-Install the dependencies:
+Install dependencies:
 
 npm install
 
-The project uses Tether’s QVAC SDK:
-
-@qvac/sdk 0.20.0
-
 ▶️ Run the Application
 
-Start the Electron application with:
+Start the Electron application:
 
 npm start
 
-The application will open the Essaiahlets Study Quiz Generator.
+The application will open as a desktop window.
 
-Enter a study topic, select the number of questions and difficulty, then click Generate Quiz.
+🧪 How It Works
 
-The generated quiz and AI output will be displayed directly in the application.
+1. Enter a study topic.
+2. Select the number of questions.
+3. Select the quiz difficulty.
+4. Click Generate Quiz.
+5. The application loads the QVAC model locally.
+6. QVAC performs AI inference on the device.
+7. The generated quiz appears in the application.
 
-🤖 QVAC SDK
+🤖 QVAC Functions Used
 
-This project uses Tether’s QVAC SDK to load and run an AI model locally for quiz generation.
+The application uses Tether’s QVAC SDK for local AI inference.
 
-QVAC SDK version: 0.20.0
+The implementation uses:
 
-The application uses QVAC’s on-device AI capabilities so that inference is performed locally on the user’s machine instead of sending the request to a cloud AI service.
+* loadModel() to load the AI model locally.
+* completion() to generate quiz content.
 
-The application calls QVAC to load the AI model and generate quiz content locally.
-
-QVAC functions used
-
-* loadModel()
-* completion()
-* unloadModel()
-
-The model is loaded when needed and unloaded when it is no longer required.
+All AI inference is intended to run locally on the user’s device.
 
 🔐 Privacy
 
-The quiz generation is designed to run using on-device AI through Tether’s QVAC SDK.
+The application is designed to use local AI inference through QVAC. No cloud AI API key is required for quiz generation.
 
-No external cloud AI API is required to perform the quiz generation.
+📸 Demo
 
-📸 Example
+The application allows users to enter a study topic and generate an AI-powered quiz.
 
-The application allows users to enter a topic such as:
+Example:
 
-Philippines History
-
-Users can select:
+Study Topic: Philippines History
 
 Questions: 10
+
 Difficulty: Medium
 
-The application then generates a personalized study quiz with AI-generated questions and answer choices.
+The generated quiz is displayed directly inside the application.
 
 📁 Project Structure
 
 Essaiahlets-study-quiz-generator/
-│
 ├── app.js
 ├── index.js
 ├── index.html
@@ -106,18 +109,20 @@ Essaiahlets-study-quiz-generator/
 ├── qvac-test.js
 ├── package.json
 ├── package-lock.json
-├── README.md
 ├── LICENSE
-└── .gitignore
+└── README.md
 
 📄 License
 
 This project is licensed under the MIT License.
 
-See the LICENSE file for the full license text.
+See the LICENSE file for details.
 
-🙌 About
+🙌 Acknowledgment
 
-Built as a small demonstration of using Tether’s QVAC SDK to create a practical AI application that runs locally on the user’s device.
+Built using Tether’s QVAC SDK for local, on-device AI inference.
 
-The goal is to make studying easier by generating personalized quizzes without requiring a cloud AI service.
+Project: AI-Powered Study Quiz Generator
+SDK: Tether QVAC SDK
+Platform: Electron / Node.js
+AI Processing: On-device
