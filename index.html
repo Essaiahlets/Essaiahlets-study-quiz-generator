@@ -3,15 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Study Quiz Generator</title>
-
+  <title>Essaiahlets Study Quiz Generator</title>
   <style>
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
-
     body {
       font-family: Arial, Helvetica, sans-serif;
       background: linear-gradient(135deg, #0f172a, #172554, #1e1b4b);
@@ -19,38 +17,33 @@
       min-height: 100vh;
       padding: 30px;
     }
-
     .container {
-      max-width: 950px;
+      max-width: 1000px;
       margin: auto;
     }
-
     .header {
       text-align: center;
       margin-bottom: 30px;
     }
-
     .header h1 {
       font-size: 36px;
       margin-bottom: 8px;
     }
-
     .header p {
       color: #94a3b8;
       font-size: 16px;
     }
-
     .badge {
       display: inline-block;
-      margin-top: 12px;
-      padding: 7px 14px;
+      margin-top: 14px;
+      padding: 8px 16px;
       border-radius: 20px;
       background: rgba(99, 102, 241, 0.18);
       border: 1px solid rgba(129, 140, 248, 0.4);
       color: #a5b4fc;
       font-size: 13px;
+      font-weight: bold;
     }
-
     .card {
       background: rgba(15, 23, 42, 0.88);
       border: 1px solid rgba(148, 163, 184, 0.18);
@@ -59,13 +52,16 @@
       margin-bottom: 22px;
       box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
     }
-
+    .settings-title {
+      font-size: 18px;
+      margin-bottom: 18px;
+      color: #e2e8f0;
+    }
     .settings {
       display: grid;
       grid-template-columns: 2fr 1fr 1fr;
       gap: 15px;
     }
-
     label {
       display: block;
       margin-bottom: 8px;
@@ -73,7 +69,6 @@
       font-size: 14px;
       font-weight: bold;
     }
-
     input,
     select {
       width: 100%;
@@ -85,12 +80,11 @@
       outline: none;
       font-size: 15px;
     }
-
     input:focus,
     select:focus {
       border-color: #818cf8;
+      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.15);
     }
-
     .generate-btn {
       width: 100%;
       margin-top: 20px;
@@ -104,19 +98,43 @@
       cursor: pointer;
       transition: 0.2s;
     }
-
     .generate-btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 8px 25px rgba(99, 102, 241, 0.35);
     }
-
+    .generate-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
     .status {
       text-align: center;
       padding: 15px;
+      margin-top: 12px;
       color: #94a3b8;
       display: none;
+      line-height: 1.5;
     }
-
+    .error-status {
+      color: #fca5a5;
+      background: rgba(127, 29, 29, 0.2);
+      border: 1px solid rgba(248, 113, 113, 0.3);
+      border-radius: 10px;
+    }
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #64748b;
+    }
+    .empty-icon {
+      font-size: 45px;
+      margin-bottom: 15px;
+    }
+    .empty-state p {
+      font-size: 15px;
+      line-height: 1.6;
+    }
     .question-card {
       background: #111827;
       border: 1px solid #334155;
@@ -124,42 +142,74 @@
       padding: 22px;
       margin-bottom: 18px;
     }
-
     .question-number {
       color: #a5b4fc;
       font-size: 13px;
       font-weight: bold;
       margin-bottom: 10px;
     }
-
     .question {
       font-size: 18px;
       font-weight: bold;
       line-height: 1.5;
       margin-bottom: 18px;
     }
-
     .option {
-      display: block;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
       padding: 13px;
       margin: 9px 0;
       border: 1px solid #334155;
       border-radius: 10px;
       cursor: pointer;
       transition: 0.2s;
+      line-height: 1.5;
     }
-
     .option:hover {
       background: #1e293b;
       border-color: #6366f1;
     }
-
     .option input {
       width: auto;
-      margin-right: 10px;
+      margin-top: 3px;
+      cursor: pointer;
     }
-
-    .submit-btn,
+    .option strong {
+      color: #a5b4fc;
+    }
+    .submit-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 11px;
+      background: #22c55e;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 15px;
+      margin-top: 5px;
+    }
+    .submit-btn:hover {
+      background: #16a34a;
+    }
+    .result {
+      text-align: center;
+      display: none;
+    }
+    .result h2 {
+      margin-bottom: 5px;
+    }
+    .score {
+      font-size: 42px;
+      font-weight: bold;
+      color: #a5b4fc;
+      margin: 12px 0;
+    }
+    .score-message {
+      color: #cbd5e1;
+      margin-bottom: 18px;
+    }
     .retry-btn {
       width: 100%;
       padding: 14px;
@@ -168,312 +218,596 @@
       font-weight: bold;
       cursor: pointer;
       font-size: 15px;
-    }
-
-    .submit-btn {
-      background: #22c55e;
-      color: white;
-    }
-
-    .retry-btn {
-      margin-top: 12px;
       background: #334155;
       color: white;
     }
-
-    .result {
-      text-align: center;
-      display: none;
+    .retry-btn:hover {
+      background: #475569;
     }
-
-    .score {
-      font-size: 42px;
-      font-weight: bold;
-      color: #a5b4fc;
-      margin: 12px 0;
-    }
-
     .answer-key {
       display: none;
       border: 1px solid rgba(34, 197, 94, 0.35);
       background: rgba(20, 83, 45, 0.18);
     }
-
     .answer-key h2 {
       margin-bottom: 15px;
     }
-
     .answer-item {
-      padding: 12px;
+      padding: 14px;
       border-bottom: 1px solid rgba(148, 163, 184, 0.15);
-      line-height: 1.5;
+      line-height: 1.6;
     }
-
     .answer-item:last-child {
       border-bottom: none;
     }
-
     .correct {
       color: #4ade80;
       font-weight: bold;
     }
-
+    .wrong {
+      color: #f87171;
+      font-weight: bold;
+    }
+    .explanation {
+      margin-top: 5px;
+      color: #cbd5e1;
+      font-size: 14px;
+    }
     .footer {
       text-align: center;
       color: #64748b;
       font-size: 13px;
       margin-top: 25px;
+      padding-bottom: 10px;
     }
-
     @media (max-width: 700px) {
       body {
         padding: 15px;
       }
-
       .settings {
         grid-template-columns: 1fr;
       }
-
       .header h1 {
         font-size: 28px;
+      }
+      .question {
+        font-size: 16px;
       }
     }
   </style>
 </head>
-
 <body>
-
   <div class="container">
-
     <div class="header">
-      <h1>🧠 AI Study Quiz Generator</h1>
-      <p>Create personalized study quizzes using on-device AI.</p>
-      <div class="badge">⚡ Powered by Tether's QVAC SDK</div>
+      <h1>🧠 Essaiahlets Study Quiz Generator</h1>
+      <p>
+        Create personalized study quizzes using on-device AI.
+      </p>
+      <div class="badge">
+        ⚡ Powered by Tether's QVAC SDK
+      </div>
     </div>
-
-    <!-- QUIZ SETTINGS -->
     <div class="card">
+      <div class="settings-title">
+        ⚙️ Quiz Settings
+      </div>
       <div class="settings">
-
         <div>
-          <label for="topic">📚 Study Topic</label>
+          <label for="topic">
+            📚 Study Topic
+          </label>
           <input
             id="topic"
             type="text"
             placeholder="Example: JavaScript"
-            value="JavaScript"
+            value="Philippines History"
           >
         </div>
-
         <div>
-          <label for="questionCount">🔢 Questions</label>
+          <label for="questionCount">
+            🔢 Questions
+          </label>
           <select id="questionCount">
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="15">15</option>
+            <option value="5">5 Questions</option>
+            <option value="10">10 Questions</option>
+            <option value="15">15 Questions</option>
           </select>
         </div>
-
         <div>
-          <label for="difficulty">🎯 Difficulty</label>
+          <label for="difficulty">
+            🎯 Difficulty
+          </label>
           <select id="difficulty">
-            <option>Easy</option>
-            <option selected>Medium</option>
-            <option>Hard</option>
+            <option value="Easy">Easy</option>
+            <option value="Medium" selected>Medium</option>
+            <option value="Hard">Hard</option>
           </select>
         </div>
-
       </div>
-
-      <button class="generate-btn" onclick="generateQuiz()">
+      <button
+        id="generateButton"
+        class="generate-btn"
+        onclick="generateQuiz()"
+      >
         ✨ Generate Quiz
       </button>
-
       <div id="status" class="status">
         ⚡ QVAC is loading the AI model and generating your quiz...
       </div>
     </div>
-
-    <!-- QUIZ AREA -->
-    <div id="quizArea"></div>
-
-    <!-- RESULT -->
-    <div id="result" class="card result">
-      <h2>🎉 Quiz Complete!</h2>
-      <div id="score" class="score">0 / 0</div>
-      <p id="scoreMessage"></p>
-
-      <button class="retry-btn" onclick="resetQuiz()">
+    <div id="quizArea">
+      <div class="card empty-state">
+        <div class="empty-icon">
+          📖
+        </div>
+        <p>
+          Enter a topic and click
+          <strong>Generate Quiz</strong>
+          to start studying.
+        </p>
+      </div>
+    </div>
+    <div
+      id="result"
+      class="card result"
+    >
+      <h2>
+        🎉 Quiz Complete!
+      </h2>
+      <div
+        id="score"
+        class="score"
+      >
+        0 / 0
+      </div>
+      <p
+        id="scoreMessage"
+        class="score-message"
+      ></p>
+      <button
+        class="retry-btn"
+        onclick="resetQuiz()"
+      >
         🔄 Generate Another Quiz
       </button>
     </div>
-
-    <!-- ANSWER KEY -->
-    <div id="answerKey" class="card answer-key">
-      <h2>📋 Answer Key</h2>
+    <div
+      id="answerKey"
+      class="card answer-key"
+    >
+      <h2>
+        📋 Answer Key
+      </h2>
       <div id="answers"></div>
     </div>
-
     <div class="footer">
       AI-powered study tool • Tether QVAC SDK • On-device AI
     </div>
-
   </div>
-
   <script>
     let currentQuiz = [];
-
-    /*
-      This function is the UI layer.
-
-      IMPORTANT:
-      Your existing QVAC generation logic should remain in app.js.
-      We will connect this button to that logic in the next step.
-    */
-
+    // ==========================================
+    // GENERATE QUIZ
+    // ==========================================
     async function generateQuiz() {
-      const topic = document.getElementById("topic").value.trim();
-      const count = document.getElementById("questionCount").value;
-      const difficulty = document.getElementById("difficulty").value;
-
+      const topic =
+        document
+          .getElementById("topic")
+          .value
+          .trim();
+      const count =
+        Number(
+          document
+            .getElementById("questionCount")
+            .value
+        );
+      const difficulty =
+        document
+          .getElementById("difficulty")
+          .value;
+      const status =
+        document.getElementById("status");
+      const quizArea =
+        document.getElementById("quizArea");
+      const generateButton =
+        document.getElementById("generateButton");
       if (!topic) {
         alert("Please enter a study topic.");
         return;
       }
-
-      document.getElementById("status").style.display = "block";
-      document.getElementById("quizArea").innerHTML = "";
-      document.getElementById("result").style.display = "none";
-      document.getElementById("answerKey").style.display = "none";
-
-      /*
-        PLACEHOLDER
-
-        Your existing QVAC function will be connected here.
-      */
-
-      console.log("Generate quiz:", {
-        topic,
-        count,
-        difficulty
-      });
-
-      document.getElementById("status").style.display = "none";
-    }
-
-    function displayQuiz(quiz) {
-      currentQuiz = quiz;
-
-      const quizArea = document.getElementById("quizArea");
+      status.className = "status";
+      status.style.display = "block";
+      status.textContent =
+        "⚡ QVAC is loading the AI model and generating your quiz...";
+      generateButton.disabled = true;
+      generateButton.textContent =
+        "⏳ Generating Quiz...";
       quizArea.innerHTML = "";
-
-      quiz.forEach((item, index) => {
-
-        const card = document.createElement("div");
-        card.className = "question-card";
-
-        let optionsHTML = "";
-
-        item.options.forEach((option, optionIndex) => {
-          const letter = String.fromCharCode(65 + optionIndex);
-
-          optionsHTML += `
-            <label class="option">
-              <input
-                type="radio"
-                name="question-${index}"
-                value="${letter}"
-              >
-              <strong>${letter}.</strong> ${option}
-            </label>
-          `;
-        });
-
-        card.innerHTML = `
-          <div class="question-number">
-            QUESTION ${index + 1} OF ${quiz.length}
-          </div>
-
-          <div class="question">
-            ${item.question}
-          </div>
-
-          ${optionsHTML}
-        `;
-
-        quizArea.appendChild(card);
-      });
-
-      const submit = document.createElement("button");
-      submit.className = "submit-btn";
-      submit.textContent = "✅ Submit Quiz";
-      submit.onclick = submitQuiz;
-
-      quizArea.appendChild(submit);
-    }
-
-    function submitQuiz() {
-      let score = 0;
-      const answers = document.getElementById("answers");
-
-      answers.innerHTML = "";
-
-      currentQuiz.forEach((item, index) => {
-
-        const selected = document.querySelector(
-          `input[name="question-${index}"]:checked`
+      document
+        .getElementById("result")
+        .style.display = "none";
+      document
+        .getElementById("answerKey")
+        .style.display = "none";
+      try {
+        // Electron renderer API
+        const {
+          ipcRenderer
+        } = require("electron");
+        console.log(
+          "================================="
         );
-
-        const userAnswer = selected ? selected.value : "No answer";
-        const correctAnswer = item.answer;
-
-        if (userAnswer === correctAnswer) {
-          score++;
+        console.log(
+          "Sending request to Electron/QVAC..."
+        );
+        console.log(
+          "Topic:",
+          topic
+        );
+        console.log(
+          "Count:",
+          count
+        );
+        console.log(
+          "Difficulty:",
+          difficulty
+        );
+        console.log(
+          "================================="
+        );
+        const response =
+          await ipcRenderer.invoke(
+            "generate-quiz",
+            {
+              topic: topic,
+              count: count,
+              difficulty: difficulty
+            }
+          );
+        console.log(
+          "QVAC response:",
+          response
+        );
+        if (!response) {
+          throw new Error(
+            "No response received from Electron."
+          );
         }
-
-        const answerDiv = document.createElement("div");
-        answerDiv.className = "answer-item";
-
-        answerDiv.innerHTML = `
-          <strong>Question ${index + 1}</strong><br>
-          Correct Answer:
-          <span class="correct">
-            ${correctAnswer}
-          </span>
+        if (!response.success) {
+          throw new Error(
+            response.error ||
+            "QVAC generation failed."
+          );
+        }
+        if (
+          !Array.isArray(response.quiz) ||
+          response.quiz.length === 0
+        ) {
+          throw new Error(
+            "QVAC returned an empty quiz."
+          );
+        }
+        currentQuiz =
+          response.quiz;
+        console.log(
+          "Quiz received:",
+          currentQuiz
+        );
+        status.style.display =
+          "none";
+        displayQuiz(
+          currentQuiz
+        );
+      } catch (error) {
+        console.error(
+          "Generate quiz error:",
+          error
+        );
+        status.className =
+          "status error-status";
+        status.style.display =
+          "block";
+        status.textContent =
+          "❌ Error: " +
+          error.message;
+        quizArea.innerHTML = `
+          <div
+            class="card"
+            style="
+              text-align:center;
+              color:#fca5a5;
+            "
+          >
+            <div
+              style="
+                font-size:45px;
+                margin-bottom:15px;
+              "
+            >
+              ⚠️
+            </div>
+            <h2>
+              Quiz generation failed.
+            </h2>
+            <p
+              style="
+                margin-top:10px;
+                color:#cbd5e1;
+              "
+            >
+              ${escapeHtml(error.message)}
+            </p>
+          </div>
         `;
-
-        answers.appendChild(answerDiv);
-      });
-
-      document.getElementById("score").textContent =
-        `${score} / ${currentQuiz.length}`;
-
-      const percentage =
-        Math.round((score / currentQuiz.length) * 100);
-
-      document.getElementById("scoreMessage").textContent =
-        `You scored ${percentage}%.`;
-
-      document.getElementById("result").style.display = "block";
-      document.getElementById("answerKey").style.display = "block";
-
-      window.scrollTo({
-        top: document.body.scrollHeight,
-        behavior: "smooth"
-      });
+      } finally {
+        generateButton.disabled =
+          false;
+        generateButton.textContent =
+          "✨ Generate Quiz";
+      }
     }
-
-    function resetQuiz() {
-      document.getElementById("quizArea").innerHTML = "";
-      document.getElementById("result").style.display = "none";
-      document.getElementById("answerKey").style.display = "none";
-
+    // ==========================================
+    // DISPLAY QUIZ
+    // ==========================================
+    function displayQuiz(quiz) {
+      currentQuiz =
+        quiz;
+      const quizArea =
+        document.getElementById(
+          "quizArea"
+        );
+      quizArea.innerHTML = "";
+      quiz.forEach(
+        (item, index) => {
+          const card =
+            document.createElement(
+              "div"
+            );
+          card.className =
+            "question-card";
+          let optionsHTML =
+            "";
+          [
+            "A",
+            "B",
+            "C",
+            "D"
+          ].forEach(
+            (letter) => {
+              const optionText =
+                item.options &&
+                item.options[letter]
+                  ? item.options[letter]
+                  : "";
+              optionsHTML += `
+                <label class="option">
+                  <input
+                    type="radio"
+                    name="question-${index}"
+                    value="${letter}"
+                  >
+                  <strong>
+                    ${letter}.
+                  </strong>
+                  <span>
+                    ${escapeHtml(optionText)}
+                  </span>
+                </label>
+              `;
+            }
+          );
+          card.innerHTML = `
+            <div class="question-number">
+              QUESTION
+              ${index + 1}
+              OF
+              ${quiz.length}
+            </div>
+            <div class="question">
+              ${escapeHtml(item.question || "")}
+            </div>
+            ${optionsHTML}
+          `;
+          quizArea.appendChild(
+            card
+          );
+        }
+      );
+      const submitButton =
+        document.createElement(
+          "button"
+        );
+      submitButton.className =
+        "submit-btn";
+      submitButton.textContent =
+        "✅ Submit Quiz";
+      submitButton.onclick =
+        submitQuiz;
+      quizArea.appendChild(
+        submitButton
+      );
       window.scrollTo({
         top: 0,
         behavior: "smooth"
       });
     }
+    // ==========================================
+    // SUBMIT QUIZ
+    // ==========================================
+    function submitQuiz() {
+      if (
+        !Array.isArray(currentQuiz) ||
+        currentQuiz.length === 0
+      ) {
+        return;
+      }
+      let score = 0;
+      const answers =
+        document.getElementById(
+          "answers"
+        );
+      answers.innerHTML = "";
+      currentQuiz.forEach(
+        (item, index) => {
+          // IMPORTANT:
+          // This is the syntax error that was
+          // breaking your previous index.html.
+          const selected =
+            document.querySelector(
+              `input[name="question-${index}"]:checked`
+            );
+          const userAnswer =
+            selected
+              ? selected.value
+              : "No answer";
+          const correctAnswer =
+            String(
+              item.answer || ""
+            ).toUpperCase();
+          if (
+            userAnswer ===
+            correctAnswer
+          ) {
+            score++;
+          }
+          const answerDiv =
+            document.createElement(
+              "div"
+            );
+          answerDiv.className =
+            "answer-item";
+          const isCorrect =
+            userAnswer ===
+            correctAnswer;
+          const answerStatus =
+            isCorrect
+              ? `<span class="correct">Correct ✓</span>`
+              : `<span class="wrong">Incorrect ✗</span>`;
+          const explanation =
+            item.explanation
+              ? `
+                <div class="explanation">
+                  💡 ${escapeHtml(
+                    item.explanation
+                  )}
+                </div>
+              `
+              : "";
+          answerDiv.innerHTML = `
+            <strong>
+              Question ${index + 1}
+            </strong>
+            <br>
+            Your answer:
+            <strong>
+              ${escapeHtml(userAnswer)}
+            </strong>
+            <br>
+            Correct answer:
+            <strong>
+              ${escapeHtml(correctAnswer)}
+            </strong>
+            <br>
+            ${answerStatus}
+            ${explanation}
+          `;
+          answers.appendChild(
+            answerDiv
+          );
+        }
+      );
+      const total =
+        currentQuiz.length;
+      document.getElementById(
+        "score"
+      ).textContent =
+        `${score} / ${total}`;
+      let message = "";
+      const percentage =
+        (score / total) * 100;
+      if (percentage === 100) {
+        message =
+          "🏆 Perfect score! Excellent work!";
+      } else if (percentage >= 80) {
+        message =
+          "🎉 Great job! Keep it up!";
+      } else if (percentage >= 60) {
+        message =
+          "👍 Good work! A little more review will help.";
+      } else {
+        message =
+          "📚 Keep studying and try again!";
+      }
+      document.getElementById(
+        "scoreMessage"
+      ).textContent =
+        message;
+      document.getElementById(
+        "result"
+      ).style.display =
+        "block";
+      document.getElementById(
+        "answerKey"
+      ).style.display =
+        "block";
+      document.getElementById(
+        "result"
+      ).scrollIntoView({
+        behavior: "smooth"
+      });
+    }
+    // ==========================================
+    // RESET QUIZ
+    // ==========================================
+    function resetQuiz() {
+      currentQuiz = [];
+      document.getElementById(
+        "result"
+      ).style.display =
+        "none";
+      document.getElementById(
+        "answerKey"
+      ).style.display =
+        "none";
+      document.getElementById(
+        "answers"
+      ).innerHTML =
+        "";
+      document.getElementById(
+        "quizArea"
+      ).innerHTML = `
+        <div class="card empty-state">
+          <div class="empty-icon">
+            📖
+          </div>
+          <p>
+            Enter a topic and click
+            <strong>Generate Quiz</strong>
+            to start studying.
+          </p>
+        </div>
+      `;
+      document.getElementById(
+        "status"
+      ).style.display =
+        "none";
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+    // ==========================================
+    // ESCAPE HTML
+    // ==========================================
+    function escapeHtml(value) {
+      const div =
+        document.createElement(
+          "div"
+        );
+      div.textContent =
+        String(value ?? "");
+      return div.innerHTML;
+    }
   </script>
-
 </body>
 </html>

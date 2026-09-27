@@ -4,6 +4,7 @@
   "description": "AI-Powered Study Quiz Generator",
   "main": "index.cjs",
   "scripts": {
+    "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -11,6 +12,7 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "@qvac/cli": "^0.14.0",
     "@qvac/sdk": "^0.20.0"
   },
   "repository": {
